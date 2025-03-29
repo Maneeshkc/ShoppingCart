@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShoppingCart.Data;
+using ShoppingCart.DataAccess;
 
 #nullable disable
 
-namespace ShoppingCart.Migrations
+namespace ShoppingCart.DataAccess.Migrations
 {
     [DbContext(typeof(ShoppingCartContext))]
     partial class ShoppingCartContextModelSnapshot : ModelSnapshot

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Models;
 
-namespace ShoppingCart.Data
+namespace ShoppingCart.DataAccess
 {
     public class ShoppingCartContext : DbContext
     {
