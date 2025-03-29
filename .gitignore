@@ -6,3 +6,9 @@
 /ShoppingCart/ShoppingCart/.vs
 /ShoppingCart/ShoppingCart/obj
 /ShoppingCart/ShoppingCart/bin/Debug/net8.0
+/ShoppingCart/ShoppingCart.DataAccess/bin/Debug/net8.0
+/ShoppingCart/ShoppingCart.DataAccess/obj
+/ShoppingCart/ShoppingCart.Model/bin/Debug/net8.0
+/ShoppingCart/ShoppingCart.Model/obj
+/ShoppingCart/ShoppingCart.Util/bin/Debug/net8.0
+/ShoppingCart/ShoppingCart.Util/obj
