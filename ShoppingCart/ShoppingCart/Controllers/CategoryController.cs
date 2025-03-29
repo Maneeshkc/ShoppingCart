@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.DataAccess;
+using ShoppingCart.DataAccess.UnitOfWork;
 using ShoppingCart.Models;
 
 namespace ShoppingCart.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ShoppingCartContext _context;
-        public CategoryController(ShoppingCartContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork context)
         {
-            _context = context;
+            _unitOfWork = context;
         }
         public IActionResult Index()
         {
-            List<Models.Category> items = _context.Categories.ToList();
+            List<Models.Category> items = _unitOfWork.Category.GetAll().OrderBy(x=>x.DisplayOrder).ToList();
             return View(items);
         }
 
@@ -31,8 +32,8 @@ namespace ShoppingCart.Controllers
             }
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(cat);
-                _context.SaveChanges();
+                _unitOfWork.Category.Add(cat);
+                _unitOfWork.Commit();
                 TempData["notification"] = "Succefully Created.";
 
                 return RedirectToAction("Index");
@@ -43,7 +44,7 @@ namespace ShoppingCart.Controllers
 
         public IActionResult Update(int id)
         {
-            var item = _context.Categories.Find(id);
+            var item = _unitOfWork.Category.Get(x=>x.Id== id);
             return View(item);
         }
 
@@ -56,8 +57,8 @@ namespace ShoppingCart.Controllers
             }
             if (ModelState.IsValid)
             {
-                _context.Categories.Update(cat);
-                _context.SaveChanges();
+                _unitOfWork.Category.Update(cat);
+                _unitOfWork.Commit();
                 TempData["notification"] = "Succefully updated.";
                 return RedirectToAction("Index");
 
@@ -67,7 +68,7 @@ namespace ShoppingCart.Controllers
 
         public IActionResult Delete(int id)
         {
-            var item=_context.Categories.Find(id);
+            var item=_unitOfWork.Category.Get(x=>x.Id == id);
             return View(item);
         }
 
@@ -75,9 +76,9 @@ namespace ShoppingCart.Controllers
         public IActionResult DeleteCategory(int id)
         {
 
-            Category? item = _context.Categories.Find(id);
-            _context.Categories.Remove(item);
-            _context.SaveChanges();
+            Category? item = _unitOfWork.Category.Get(x=>x.Id==id);
+            _unitOfWork.Category.Delete(item);
+            _unitOfWork.Commit();
             TempData["notification"] = "Succefully Deleted.";
 
             return RedirectToAction("Index");
