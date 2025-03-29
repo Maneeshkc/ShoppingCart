@@ -33,42 +33,53 @@ namespace ShoppingCart.Controllers
             {
                 _context.Categories.Add(cat);
                 _context.SaveChanges();
+                TempData["notification"] = "Succefully Created.";
+
                 return RedirectToAction("Index");
 
             }
             return View();
         }
 
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
-            return View();
+            var item = _context.Categories.Find(id);
+            return View(item);
         }
 
         [HttpPost]
         public IActionResult Update(Category cat)
         {
+            if (cat.DisplayOrder <= 0)
+            {
+                ModelState.AddModelError("", "Display order should be Greater than 0");
+            }
             if (ModelState.IsValid)
             {
                 _context.Categories.Update(cat);
                 _context.SaveChanges();
+                TempData["notification"] = "Succefully updated.";
                 return RedirectToAction("Index");
 
             }
             return View();
         }
 
-        public IActionResult Delete()
+        public IActionResult Delete(int id)
         {
-            return View();
+            var item=_context.Categories.Find(id);
+            return View(item);
         }
 
-        [HttpPost]
+        [HttpPost,ActionName("Delete")]
         public IActionResult DeleteCategory(int id)
         {
 
             Category? item = _context.Categories.Find(id);
             _context.Categories.Remove(item);
             _context.SaveChanges();
+            TempData["notification"] = "Succefully Deleted.";
+
             return RedirectToAction("Index");
 
         }
